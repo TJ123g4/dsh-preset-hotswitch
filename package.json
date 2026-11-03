@@ -1,6 +1,6 @@
 {
   "name": "@local/dsh-preset-hotswitch",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "type": "module",
   "description": "Hot-switch the calling DSH session's agent preset after its first turn through the agentPresets.recompose service (experimental: bypasses the blank-session-only rule); the recorded selection survives a restart.",
@@ -12,8 +12,10 @@
   },
   "files": [
     "lib/index.js",
+    "lib/ptc-repair.js",
     "cordis.patch.yml",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE",
     "locale/*.json",
     "icon.svg",

@@ -7,6 +7,27 @@
 > 由调用方负责空白检查"。本插件**刻意跳过**这个检查，依赖 DSH `0.2.1-rc.3` 的实现细节；
 > 升级 DSH 后可能失效（失效会以普通工具错误返回，不会改坏会话）。介意的话先在新会话里验证。
 
+## 0.1.1：PTC 热切换修复
+
+旧版切到 `ptc` 时，Agent 已经启动，presentation 固定为 native，provider 会把全部工具折成
+deferred，返回：
+
+```text
+at least one tool must have defer_loading=false.
+All tools cannot be deferred.
+```
+
+0.1.1 用 `tools.schemas(agent)`（不是 `agent.ctx`）读取真实工具面；切换后检查 PTC
+`run_code` / native 面，不匹配则回滚 standard。工具面基线只在 `agent/pre-step`（turn 内）
+用 `reason: series` 重建，绝不在切换时直接写 `request/header`——那会产生
+`request/header is outside an open turn` 的损坏会话。
+
+工具调用发生在 turn 内，所以工具版**不**做 idle 检查；外部 UI 版本才要求
+`agent.status === 'idle'`。
+
+已验证：`switch_session_preset` 把 `standard -> ptc`，下一轮模型只看到 `run_code` 并
+成功调用；没有 defer 报错。
+
 ## 为什么需要它
 
 官方 UI 只在**空白会话**（发出第一条消息之前）允许切换 preset。会话一旦开始，
