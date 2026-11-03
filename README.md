@@ -47,7 +47,7 @@ All tools cannot be deferred.
 ## 安装
 
 ```sh
-dsh plugin --profile desktop add github:Dax233/dsh-preset-hotswitch
+dsh plugin --profile desktop add github:TJ123g4/dsh-preset-hotswitch#fix/ptc-hot-switch
 ```
 
 装完**重启 DSH Desktop**。Host-only bundle，没有额外依赖，不改任何 profile 配置。
